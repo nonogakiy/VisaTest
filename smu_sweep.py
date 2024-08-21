@@ -1,5 +1,6 @@
 import pyvisa
 import time
+import numpy as np
 
 rm = pyvisa.ResourceManager()
 smu = rm.open_resource("USB0::0x0957::0x8E18::MY51143197::0::INSTR")
@@ -28,10 +29,17 @@ while(True):
     print(f'{iter}: {val:x}')
     if val & 0x20 == 0x20:
         break
+    iter = iter + 1
 
 smu.write(":FETC:ARR? (@1)")
-out = smu.read()
-print(out)
+ret = smu.read()
+ret = ret.split(',')
+ret = np.array(ret, dtype=float)
+ret = ret.reshape( (len(ret)//2, 2))
+xx = ret[:,0]
+yy = ret[:,1]
+
+print(xx, yy)
 
 smu.write('outp1 off')
 

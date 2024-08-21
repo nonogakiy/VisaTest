@@ -1,11 +1,12 @@
 import sys
 import numpy as np
+import pyvisa
+import time
 from PySide6.QtWidgets import *
 from PySide6.QtCore import *
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_qtagg import FigureCanvasQTAgg as FigureCanvas
-import pyvisa
-import time
+
 
 class WinTest(QWidget):
     #GUI init
@@ -43,7 +44,6 @@ class WinTest(QWidget):
         # Measurement valiables
         self.measuring = False
         self.iter = 0
-
     # Timer Event
     def onTimerTick(self):
         if self.measuring == True:

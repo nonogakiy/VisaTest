@@ -40,20 +40,26 @@ class WinTest(QWidget):
        
 
     def onBtnMeasClicked(self):
-        self.smu.write(':SOUR1:VOLT:MODE SWE')
-        self.smu.write(':SOUR1:VOLT:STAR 0.0')
-        self.smu.write(':SOUR1:VOLT:STOP 1.0')
-        self.smu.write(':SOUR1:SWE:POIN 11')
-        self.smu.write(':TRIG1:ALL:COUN 11')
-        self.smu.write(':TRIG1:ALL:DEL 0')
-        self.smu.write(':TRIG1:ALL:TIM 0.5')
-        self.smu.write(':TRIG1:ALL:SOUR TIM')
+        # Sense
+        self.smu.write(':SENS:CURR:APER 0.1')   #Aperture 0.1sec
+        self.smu.write(':SENS:CURR:PROT 0.02')  #Compliance 0.02A
+        # Source
+        self.smu.write(':SOUR1:VOLT:MODE SWE')  #Sweep Mode
+        self.smu.write(':SOUR1:VOLT:STAR 0.0')  #Start Voltage = 0.0 V
+        self.smu.write(':SOUR1:VOLT:STOP 1.0')  #End Voltage = 1.0 V
+        self.smu.write(':SOUR1:SWE:POIN 11')    #Step Voltage = (End - Start) / (Point - 1)
+        # Trigger
+        self.smu.write(':TRIG1:ALL:COUN 11')    #Counts = Points
+        self.smu.write(':TRIG1:ALL:DEL 0')      #Trigger Delay
+        self.smu.write(':TRIG1:ALL:TIM 0.5')    #Timer Interval 0.5sec
+        self.smu.write(':TRIG1:ALL:SOUR TIM')   #Trigger Source selected at Timer
+        # Format
         self.smu.write(':FORM:ELEM:SENS VOLT,CURR')
-
-        self.smu.write('*CLS')
-        self.smu.write('*ESE 1')
-        self.smu.write(':INIT (@1)')
-        self.smu.write('*OPC')
+        # Common Commands
+        self.smu.write('*CLS')          # disable OPeration Complete bit
+        self.smu.write('*ESE 1')        # enable Standard Event Status bit 1
+        self.smu.write(':INIT (@1)')    
+        self.smu.write('*OPC')          # enable OPC
 
         #測定終了判定
         iter = 0

@@ -7,12 +7,11 @@ from PySide6.QtCore import *
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_qtagg import FigureCanvasQTAgg as FigureCanvas
 
-
 class WinTest(QWidget):
     #GUI init
     def __init__(self):
         super().__init__()
-        self.setWindowTitle('matplotlibTest')
+        self.setWindowTitle('SMU_Sweep')
         # Elemental Layouts
         hbox = QHBoxLayout()
         vbox = QVBoxLayout()
@@ -55,7 +54,7 @@ class WinTest(QWidget):
                 self.measuring = False
                 self.timer.stop()
                 # Fetch Data
-                self.smu.write(":FETC:ARR? (@1)")
+                self.smu.write(':FETC:ARR? (@1)')
                 ret = self.smu.read()
                 # Plot Data
                 ret = ret.split(',')
